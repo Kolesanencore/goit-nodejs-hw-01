@@ -1,1 +1,1 @@
-![Alt Text](./Images/screenshoot.png).
+![commands in terminal](/Images/screenshot.png)
