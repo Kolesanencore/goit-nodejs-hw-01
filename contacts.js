@@ -28,6 +28,22 @@ export async function removeContact(contactId) {
   await fs.writeFile(contactsPath, JSON.stringify(updatedContacts, null, 2));
   return contactToRemove;
 }
+// Когда большие массивы лучше через find или findndex ??
+
+// export async function removeContact(contactId) {
+//   const contacts = await listContacts();
+//   const contactIndex = contacts.findIndex(
+//     (contact) => contact.id === contactId
+//   );
+//   if (contactIndex === -1) return null;
+
+//   const contactToRemove = contacts[contactIndex];
+//   const updatedContacts = contacts.filter(
+//     (contact) => contact.id !== contactId
+//   );
+//   await fs.writeFile(contactsPath, JSON.stringify(updatedContacts, null, 2));
+//   return contactToRemove;
+// }
 
 export async function addContact(name, email, phone) {
   const contacts = await listContacts();
