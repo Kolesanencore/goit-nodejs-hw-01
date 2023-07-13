@@ -16,15 +16,17 @@ export async function listContacts() {
 }
 
 export async function getContactById(contactId) {
-  return withErrorHandling(async () => {
+  try {
     const contacts = await listContacts();
     const resultById = contacts.find((contact) => contact.id === contactId);
     return resultById || null;
-  });
+  } catch (error) {
+    throw new Error(error.message);
+  }
 }
 
 export async function removeContact(contactId) {
-  return withErrorHandling(async () => {
+  try {
     const contacts = await listContacts();
     const contactToRemove = contacts.find(
       (contact) => contact.id === contactId
@@ -33,22 +35,18 @@ export async function removeContact(contactId) {
     const updatedContacts = contacts.filter(({ id }) => id !== contactId);
     await fs.writeFile(contactsPath, JSON.stringify(updatedContacts, null, 2));
     return contactToRemove;
-  });
+  } catch (error) {
+    throw new Error(error.message);
+  }
 }
 
 export async function addContact(name, email, phone) {
-  return withErrorHandling(async () => {
+  try {
     const contacts = await listContacts();
     const newContact = { id: nanoid(), name, email, phone };
     contacts.push(newContact);
     await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
     return newContact;
-  });
-}
-
-export async function withErrorHandling(fn) {
-  try {
-    return await fn();
   } catch (error) {
     throw new Error(error.message);
   }
